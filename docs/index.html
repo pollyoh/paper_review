@@ -514,12 +514,12 @@ h2[id="%EB%AA%A9%EC%B0%A8"] + ol + hr {
 .toc-sidebar {
 	position: fixed;
 	top: 20px;
-	left: 20px;
-	width: 350px;
+	left: 16px;
+	width: 340px;
 	max-height: calc(100vh - 40px);
 	overflow: auto;
 	padding: 1rem 1rem 1.1rem;
-	border-radius: 18px;
+	border-radius: 20px;
 	border: 1px solid rgba(124, 184, 232, 0.35);
 	background: linear-gradient(180deg, rgba(245, 251, 255, 0.96) 0%, rgba(233, 245, 255, 0.95) 100%);
 	box-shadow: 0 16px 34px rgba(50, 130, 200, 0.12);
@@ -573,7 +573,7 @@ h2[id="%EB%AA%A9%EC%B0%A8"] + ol + hr {
 }
 
 body.has-sidebar .content-wrapper {
-	margin-left: 374px;
+	margin-left: 368px;
 	margin-right: 0;
 	width: auto;
 }
@@ -1196,7 +1196,7 @@ w_i^\ast \in V_i \;\land\; |V_i| \le k_i
 <p><strong>2. 다중 가설 검정 (Multiple Hypothesis Testing)</strong></p>
 <p>학회에서는 수만 건의 리뷰를 동시에 검정한다. 이때 각 리뷰에 대해 하나의
 가설 검정을 수행하므로, 총 |R|개의 가설을 동시에 검정하게 된다.</p>
-<p>문제는 **다중 비교 문제(Multiple Comparisons Problem)**다:</p>
+<p>문제는 다중 비교 문제(Multiple Comparisons Problem)다:</p>
 <p>FWER는 다중 가설 검정에서 <strong>적어도 하나 이상의 false positive가 발생할 확률</strong>이다.
 따라서 리뷰를 <strong>n</strong>개 동시에 보면, 개별 검정을 그대로 n번 반복하는 것이 아니라
 이 FWER를 제어하도록 다중 검정 보정을 해야 한다.</p>
