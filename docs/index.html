@@ -132,6 +132,7 @@ code {
 
 html {
 	scroll-behavior: smooth;
+	overflow-x: hidden;
 }
 
 body {
@@ -148,9 +149,8 @@ body {
 
 .content-wrapper {
 	box-sizing: border-box;
-	width: calc(100vw - 64px);
-	max-width: 100%;
-	margin: 0 auto;
+	width: auto;
+	margin: 0;
 	padding: 40px 48px 56px;
 	background:
 		linear-gradient(180deg, rgba(244, 251, 255, 0.98) 0%, rgba(255, 255, 255, 0.99) 100%);
@@ -279,13 +279,15 @@ li + li {
 
 table {
 	width: 100%;
+	max-width: 100%;
 	margin: 1rem 0 1.4rem;
 	font-size: 0.94rem;
 	border-collapse: separate;
 	border-spacing: 0;
 	border: 1px solid rgba(124, 184, 232, 0.55);
 	border-radius: 14px;
-	overflow: hidden;
+	overflow-x: auto;
+	display: block;
 	background: rgba(255, 255, 255, 0.95);
 }
 
@@ -560,9 +562,9 @@ h2[id="%EB%AA%A9%EC%B0%A8"] + ol + hr {
 }
 
 body.has-sidebar .content-wrapper {
-	margin-left: 390px;
-	margin-right: 20px;
-	width: calc(100vw - 410px);
+	margin-left: 374px;
+	margin-right: 0;
+	width: auto;
 }
 
 @media (max-width: 768px) {
@@ -572,7 +574,8 @@ body.has-sidebar .content-wrapper {
 	}
 
 	.content-wrapper {
-		width: calc(100vw - 20px);
+		width: auto;
+		margin: 0;
 		padding: 24px 18px 32px;
 		border-radius: 14px;
 	}
@@ -604,8 +607,8 @@ body.has-sidebar .content-wrapper {
 	}
 
 	body.has-sidebar .content-wrapper {
-		margin-left: auto;
-		width: calc(100vw - 20px);
+		margin-left: 0;
+		width: auto;
 	}
 }
 </style>
