@@ -1,0 +1,13 @@
+[
+  {
+    "id": "20250409-detecting-llm-peer-reviews",
+    "title": "LLM 생성 피어리뷰 탐지: 종합 분석 보고서",
+    "originalTitle": "Detecting LLM-Generated Peer Reviews",
+    "date": "2025-04-09",
+    "authors": "Vishisht Rao, Aounon Kumar, Himabindu Lakkaraju, Nihar B. Shah",
+    "institution": "Carnegie Mellon University, Harvard University",
+    "tags": ["LLM", "peer-review", "detection", "watermarking"],
+    "description": "간접 프롬프트 인젝션과 통계적 워터마킹을 결합하여 LLM이 생성한 피어리뷰를 높은 정확도로 탐지하는 프레임워크 분석",
+    "path": "reviews/20250409-detecting-llm-peer-reviews/"
+  }
+]

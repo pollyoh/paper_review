@@ -1111,5 +1111,3 @@ GCG (Greedy Coordinate Gradient)는 Zou et al. (2023)이 "Universal and Transfer
 - NIH (2023). [Using AI in peer review is a breach of confidentiality](https://nexus.od.nih.gov/all/2023/06/23/using-ai-in-peer-review-is-a-breach-of-confidentiality/)
 
 ---
-
-> **면책 조항**: 이 보고서는 원논문과 공개된 웹 자료를 바탕으로 작성되었으며, 학술적 목적의 해설입니다.
