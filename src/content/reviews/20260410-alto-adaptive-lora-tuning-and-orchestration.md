@@ -9,10 +9,10 @@ description: "다중 LoRA 하이퍼파라미터 튜닝을 통합 시스템 워�
 ---
 # ALTO: 이기종 LoRA 학습 워크로드를 위한 적응적 튜닝 및 오케스트레이션 -- 종합 분석 보고서
 
-> **원논문**: *ALTO: Adaptive LoRA Tuning and Orchestration for Heterogeneous LoRA Training Workloads*
-> **저자**: Jingwei Zuo\*, Xinze Feng\*, Zien Liu, Kaijian Wang, Fanjiang Ye, Ye Cao, Zhuang Wang, Yuke Wang
-> **소속**: Rice University (\*공동 1저자)
-> **출처**: arXiv:2604.05426v1 [cs.LG] (2026.04.07)
+> **원논문**: *ALTO: Adaptive LoRA Tuning and Orchestration for Heterogeneous LoRA Training Workloads*<br>
+> **저자**: Jingwei Zuo\*, Xinze Feng\*, Zien Liu, Kaijian Wang, Fanjiang Ye, Ye Cao, Zhuang Wang, Yuke Wang<br>
+> **소속**: Rice University (\*공동 1저자)<br>
+> **출처**: arXiv:2604.05426v1 [cs.LG] (2026.04.07)<br>
 > **보고서 작성일**: 2026.04.10
 
 > **[주석] "이기종(Heterogeneous)"이란?** 동일하지 않은 여러 종류가 섞여 있다는 뜻이다. 이 논문에서 "이기종 LoRA 학습 워크로드"란, 서로 다른 기반 모델(Llama-8B, Qwen-32B 등), 서로 다른 데이터셋(수학, 명령 수행, 추론 등), 서로 다른 HP 설정(학습률, 랭크, 배치 사이즈), 서로 다른 GPU 요구량(1~4 GPU)이 혼재하는 실제 클라우드 환경의 학습 작업 묶음을 의미한다. 반대인 "동종(Homogeneous)"은 모든 작업이 동일한 모델, 데이터셋, 설정을 사용하는 경우이다.
@@ -57,15 +57,14 @@ ALTO의 설계는 저자들이 대규모 실증 연구를 통해 도출한 세 �
 | **Observation 2** | 작은 배치가 통계적으로 유리하나 GPU 활용도가 낮음          | 다중 어댑터 배칭(Adapter Batching)으로 해결 가능 |
 | **Observation 3** | LoRA 작업의 실행 시간이 사전에 예측 가능                   | 최적 스케줄링(Makespan Optimization)이 가능      |
 
-> **[주석]** 이후 본 보고서에서 **HP**는 **하이퍼파라미터(Hyperparameter)** 의 약어로 사용한다. LoRA 학습에서 주요 HP는 학습률(learning rate), 배치 사이즈(batch size), LoRA 랭크(rank) 등이다.
 
 **Observation 1 -- HP 민감성**: 165개 하이퍼파라미터 설정에 대한 실험에서, 최고-최저 설정 간 GSM8K 정확도 차이가 최대 73.9%에 달했다. DPO(Direct Preference Optimization) 실험에서도 보상 정확도가 26.7%까지 벌어졌다. 최적 HP는 모델과 데이터셋에 따라 달라지며, 보편적 경험 법칙(rule of thumb)이 존재하지 않는다.
 
 **Observation 2 -- 배치 사이즈 딜레마**: 아래 그래프와 같이 LoRA 파인튜닝은 작은 배치 사이즈(1~16)에서 가장 좋은 수렴 성능을 보인다. 그러나 단일 LoRA 어댑터를 배치 사이즈 1로 학습하면 H100 GPU 메모리의 15%만 사용하고, SM(Streaming Multiprocessor) 활성율은 7.7%에 불과하다.
 
-> **[주석]** SM 활용도(SM Occupancy)란 GPU의 실제 연산 유닛이 유의미한 작업을 수행하는 비율이다. 7.7%라 함은 GPU 연산 능력의 92.3%가 놀고 있다는 뜻이다. 이는 LoRA의 저랭크 행렬이 매우 작아 GPU의 대규모 병렬 연산 능력을 충분히 활용하지 못하기 때문이다.
-
 **Observation 3 -- 예측 가능성**: LLM 서빙 워크로드와 달리, LoRA 파인튜닝 작업은 설정 수, 설정당 스텝 수, 스텝당 학습 시간을 사전에 알 수 있어 실행 시간을 안정적으로 추정할 수 있다. 이는 오프라인 최적화 기반 스케줄링의 기회를 제공한다.
+
+> **[주석] HP, SM 활용도 등 약어 정리** **HP**는 **하이퍼파라미터(Hyperparameter)** 의 약어로 사용한다. LoRA 학습에서 주요 HP는 학습률(learning rate), 배치 사이즈(batch size), LoRA 랭크(rank) 등이다. <br> SM 활용도(SM Occupancy)란 GPU의 실제 연산 유닛이 유의미한 작업을 수행하는 비율이다. 7.7%라 함은 GPU 연산 능력의 92.3%가 놀고 있다는 뜻이다. 이는 LoRA의 저랭크 행렬이 매우 작아 GPU의 대규모 병렬 연산 능력을 충분히 활용하지 못하기 때문이다.
 
 ### 1.3 기존 시스템의 한계
 
@@ -141,7 +140,7 @@ $$
 \hat{\ell}_t = \alpha \cdot \ell_t + (1 - \alpha) \cdot \hat{\ell}_{t-1}
 $$
 
-> **[주석]** EMA(Exponential Moving Average)는 최근 값에 더 높은 가중치를 부여하는 이동 평균이다. $\alpha$가 클수록 최근 값에 민감하고, 작을수록 더 많은 과거를 반영한다. 학습 손실의 순간적 진동을 완화하여 안정적인 추세 판단을 가능케 한다.
+> **[주석] EMA(지수 이동 평균)란?** EMA(Exponential Moving Average)는 최근 값에 더 높은 가중치를 부여하는 이동 평균이다. $\alpha$가 클수록 최근 값에 민감하고, 작을수록 더 많은 과거를 반영한다. 학습 손실의 순간적 진동을 완화하여 안정적인 추세 판단을 가능케 한다.
 
 **패턴 1 -- 발산(Divergence)**: 과도한 학습률 등으로 학습 손실과 검증 손실이 동시에 상승하는 경우. 최근 $w$개 손실 값에 선형 회귀를 적용하여 기울기를 계산한다.
 
@@ -394,7 +393,7 @@ FSDP: 어댑터 A 하나를 GPU 2개로 학습 (배치=4, GPU당 2개씩)
 2. **어댑터 기울기 All-Reduce 통신**: 매 스텝마다 dA, dB를 GPU 간에 교환해야 한다. 어댑터 연산 자체가 마이크로초 단위로 빠른데, 통신 오버헤드가 상대적으로 크다.
 3. **어댑터 가중치 중복**: 모든 GPU가 동일한 A, B 복사본을 메모리에 들고 있으므로, 매번 HBM에서 SRAM으로 로드할 때 P개 GPU에서 P번 중복 전송이 발생한다.
 
-> **[주석]** HBM-to-SRAM 전송이란 GPU의 고대역 메모리(HBM)에서 실제 연산이 이루어지는 스트리밍 멀티프로세서(SM)의 레지스터/공유 메모리(SRAM)로 데이터를 로드하는 과정이다. LoRA 파인튜닝은 대부분의 시간이 기반 모델 가중치를 HBM에서 SRAM으로 로드하는 데 소비되므로, 중복 전송을 제거하는 것이 성능에 결정적이다.
+> **[주석] HBM-to-SRAM 전송이란?** HBM-to-SRAM 전송이란 GPU의 고대역 메모리(HBM)에서 실제 연산이 이루어지는 스트리밍 멀티프로세서(SM)의 레지스터/공유 메모리(SRAM)로 데이터를 로드하는 과정이다. LoRA 파인튜닝은 대부분의 시간이 기반 모델 가중치를 HBM에서 SRAM으로 로드하는 데 소비되므로, 중복 전송을 제거하는 것이 성능에 결정적이다.
 
 #### 2.3.3 ALTO의 Adapter Parallelism: "각 GPU가 서로 다른 어댑터를 전담"
 
@@ -899,7 +898,7 @@ $$
 
 여기서 $A \in \mathbb{R}^{k \times r}$, $B \in \mathbb{R}^{r \times n}$이 유일한 학습 파라미터이며, 랭크 $r \ll \min(k, n)$이다. 실제로 LoRA는 기반 모델 대비 1% 미만의 추가 파라미터만 도입한다.
 
-> **[주석]** 직관적으로, LoRA는 "큰 행렬 $W$의 변화량 $\Delta W$를 직접 학습하는 대신, $\Delta W \approx AB$로 저랭크 근사하여 학습 파라미터를 줄인다"고 이해할 수 있다. 랭크 $r$이 작을수록 파라미터는 적지만 표현력이 제한되고, 클수록 표현력은 높지만 파인튜닝 효율이 감소한다. 스케일링 팩터 $\alpha$는 LoRA 업데이트의 크기를 조절하며, 통상 $\alpha = r$ 또는 $\alpha = 2r$로 설정한다.
+> **[주석] LoRA의 저랭크 근사 직관** 직관적으로, LoRA는 "큰 행렬 $W$의 변화량 $\Delta W$를 직접 학습하는 대신, $\Delta W \approx AB$로 저랭크 근사하여 학습 파라미터를 줄인다"고 이해할 수 있다. 랭크 $r$이 작을수록 파라미터는 적지만 표현력이 제한되고, 클수록 표현력은 높지만 파인튜닝 효율이 감소한다. 스케일링 팩터 $\alpha$는 LoRA 업데이트의 크기를 조절하며, 통상 $\alpha = r$ 또는 $\alpha = 2r$로 설정한다.
 
 #### LoRA Down과 LoRA Up: 순방향 패스의 두 단계
 
