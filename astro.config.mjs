@@ -6,7 +6,7 @@ import { shikiMermaidTransformer } from './src/plugins/rehype-mermaid.mjs';
 
 export default defineConfig({
   site: 'https://pollyoh.github.io',
-  base: '/paper_study',
+  base: '/paper_review',
   output: 'static',
   integrations: [react()],
   markdown: {

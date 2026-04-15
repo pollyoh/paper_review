@@ -93,7 +93,7 @@ ALTO의 설계는 저자들이 대규모 실증 연구를 통해 도출한 세 �
 
 ALTO는 위 세 관찰에 대응하는 세 가지 기법을 공동 설계(co-design)한 통합 LoRA 학습 시스템이다.
 
-![Figure 2: ALTO 시스템 개요](/paper_study/images/reviews/20260410-alto-adaptive-lora-tuning-and-orchestration/Figure-2.png)
+![Figure 2: ALTO 시스템 개요](/paper_review/images/reviews/20260410-alto-adaptive-lora-tuning-and-orchestration/Figure-2.png)
 
 ```mermaid
 graph TB
@@ -130,7 +130,7 @@ graph TB
 
 ALTO는 학습 중 손실 궤적(loss trajectory)을 모니터링하여 세 가지 비효율 패턴을 자동 탐지하고 조기 종료한다.
 
-![Figure 6: 세 가지 비효율 패턴의 손실 곡선](/paper_study/images/reviews/20260410-alto-adaptive-lora-tuning-and-orchestration/Figure-6.png)
+![Figure 6: 세 가지 비효율 패턴의 손실 곡선](/paper_review/images/reviews/20260410-alto-adaptive-lora-tuning-and-orchestration/Figure-6.png)
 
 #### 2.1.1 온라인 패턴 기반 탐지
 
@@ -322,7 +322,7 @@ ALTO는 이 비대칭성을 활용하여 두 경로를 독립적으로 처리한
 
 기반 모델이 단일 GPU 메모리를 초과하면 분산 학습이 필수적이다. ALTO는 FSDP로 기반 모델을 샤딩하되, 기존과 근본적으로 다른 접근을 취한다.
 
-![Figure 8: ALTO의 Executor 모드](/paper_study/images/reviews/20260410-alto-adaptive-lora-tuning-and-orchestration/Figure-8.png)
+![Figure 8: ALTO의 Executor 모드](/paper_review/images/reviews/20260410-alto-adaptive-lora-tuning-and-orchestration/Figure-8.png)
 
 #### 2.3.1 All-Gather와 All-Reduce: 분산 통신 기본 연산
 
@@ -713,7 +713,7 @@ sequenceDiagram
 
 ### 3.2 종합 속도 향상 (End-to-End)
 
-![Figure 9: 종합 속도 향상 결과](/paper_study/images/reviews/20260410-alto-adaptive-lora-tuning-and-orchestration/Figure-9.png)
+![Figure 9: 종합 속도 향상 결과](/paper_review/images/reviews/20260410-alto-adaptive-lora-tuning-and-orchestration/Figure-9.png)
 
 **단일 GPU 결과** (LoRAFusion 대비 속도 향상):
 
@@ -772,7 +772,7 @@ UltraFeedback 데이터셋에서 DPO 학습 결과:
 
 #### 3.5.2 인터-태스크 스케줄링 Ablation
 
-![Figure 12: 컴포넌트별 기여도](/paper_study/images/reviews/20260410-alto-adaptive-lora-tuning-and-orchestration/Figure-12.png)
+![Figure 12: 컴포넌트별 기여도](/paper_review/images/reviews/20260410-alto-adaptive-lora-tuning-and-orchestration/Figure-12.png)
 
 8x H100 GPU에서 11개 이기종 태스크(4개 모델 규모)를 사용한 실험:
 
