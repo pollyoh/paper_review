@@ -2,11 +2,21 @@
 
 from __future__ import annotations
 
+import importlib.util
 import subprocess
 import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+
+
+def _load_lint_report():
+    path = ROOT / "scripts" / "lint_report.py"
+    spec = importlib.util.spec_from_file_location("_lint_report", path)
+    assert spec and spec.loader
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
 
 
 def _run(args: list[str]) -> subprocess.CompletedProcess[str]:
@@ -34,3 +44,10 @@ def test_lint_report_recommender_passes() -> None:
     path = ROOT / "report/20260416_report_a_survey_on_llm_powered_agents_for_recommender_systems.md"
     r = _run(["--strict", "--stage", "report", "--category", "reviews", str(path)])
     assert r.returncode == 0, r.stderr + r.stdout
+
+
+def test_lint_remark_math_delimiters_flags_tex_paren() -> None:
+    lr = _load_lint_report()
+    p = Path("x.md")
+    assert lr.lint_remark_math_delimiters(r"plain \(a\) math", p, strict=False) == 1
+    assert lr.lint_remark_math_delimiters(r"ok $a$ inline", p, strict=False) == 0

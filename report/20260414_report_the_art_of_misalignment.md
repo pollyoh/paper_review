@@ -1,9 +1,9 @@
 # (Mis)alignment의 기술: 파인튜닝 방법이 LLM의 안전 정렬을 해제하고 복구하는 메커니즘 -- 종합 분석 보고서
 
-> **원논문**: *The Art of (Mis)alignment: How Fine-Tuning Methods Effectively Misalign and Realign LLMs in Post-Training* `<br>`
-> **저자**: Rui Zhang, Hongwei Li, Yun Shen, Xinyue Shen, Wenbo Jiang, Guowen Xu, Yang Liu, Michael Backes, Yang Zhang `<br>`
-> **소속**: University of Electronic Science and Technology of China (UESTC), Flexera, CISPA Helmholtz Center for Information Security, Nanyang Technological University `<br>`
-> **출처**: arXiv:2604.07754v1 [cs.CR] (2026.04.09) / ACL Findings 2026 채택 `<br>`
+> **원논문**: *The Art of (Mis)alignment: How Fine-Tuning Methods Effectively Misalign and Realign LLMs in Post-Training*<br>
+> **저자**: Rui Zhang, Hongwei Li, Yun Shen, Xinyue Shen, Wenbo Jiang, Guowen Xu, Yang Liu, Michael Backes, Yang Zhang<br>
+> **소속**: University of Electronic Science and Technology of China (UESTC), Flexera, CISPA Helmholtz Center for Information Security, Nanyang Technological University<br>
+> **출처**: arXiv:2604.07754v1 [cs.CR] (2026.04.09) / ACL Findings 2026 채택<br>
 > **보고서 작성일**: 2026-04-14
 
 > **[주석] "Misalignment(오정렬)"과 "Realignment(재정렬)"이란?**

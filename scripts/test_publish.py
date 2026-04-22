@@ -23,3 +23,31 @@ def test_slug_from_reviews_report() -> None:
         )
         == "20260416-a-survey-on-llm-powered-agents-for-recommender-systems"
     )
+
+
+def test_build_reviews_markdown_replaces_br_backticks() -> None:
+    pub = _load_publish()
+    report = """# 제목
+
+> **원논문**: *Paper* `<br>`
+> **저자**: A `<br>`
+> **소속**: B `<br>`
+> **출처**: C `<br>`
+> **보고서 작성일**: 2026-04-16
+
+---
+
+## 본문
+
+줄 `<br>` 끝
+"""
+    out = pub.build_reviews_markdown(
+        report_text=report,
+        slug="20260416-test",
+        title_line="# 제목",
+        description="d",
+        tags=["x"],
+        topic=None,
+    )
+    assert "`<br>`" not in out
+    assert "줄 <br> 끝" in out
