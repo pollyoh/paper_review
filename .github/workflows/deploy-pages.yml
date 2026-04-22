@@ -19,12 +19,31 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
       - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
+      - name: Python tooling
+        run: |
+          python3 -m venv .venv
+          .venv/bin/pip install -r requirements-dev.txt
       - run: npm ci
-      - run: npm run build
+      - name: Lint published markdown
+        shell: bash
+        run: |
+          set -euo pipefail
+          shopt -s nullglob
+          rev=(src/content/reviews/*.md)
+          st=(src/content/studies/*.md)
+          .venv/bin/python scripts/lint_report.py --strict --stage content --category reviews "${rev[@]}"
+          .venv/bin/python scripts/lint_report.py --strict --stage content --category studies "${st[@]}"
+      - name: Astro build
+        env:
+          ASTRO_TELEMETRY_DISABLED: "1"
+        run: npm run build
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist

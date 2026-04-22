@@ -2,3 +2,11 @@ node_modules/
 dist/
 .astro/
 .DS_Store
+.venv/
+
+# Power BI generated appendices and script caches (spec)
+report/_generated_*.md
+.tmp_*
+**/__pycache__/
+*.pyc
+.pytest_cache/

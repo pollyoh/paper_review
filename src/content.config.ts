@@ -12,7 +12,30 @@ const reviews = defineCollection({
     institution: z.string(),
     tags: z.array(z.string()),
     description: z.string(),
+    topic: z.string().optional(),
   }),
 });
 
-export const collections = { reviews };
+const studies = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/studies' }),
+  schema: z.object({
+    title: z.string(),
+    date: z.coerce.date(),
+    description: z.string(),
+    tags: z.array(z.string()),
+    topic: z.string(),
+    sources: z
+      .array(
+        z.object({
+          title: z.string(),
+          url: z.string().url(),
+        }),
+      )
+      .optional(),
+    originalTitle: z.string().optional(),
+    authors: z.string().optional(),
+    institution: z.string().optional(),
+  }),
+});
+
+export const collections = { reviews, studies };
