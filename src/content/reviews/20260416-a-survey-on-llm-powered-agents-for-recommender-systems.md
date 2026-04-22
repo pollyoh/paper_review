@@ -11,10 +11,10 @@ topic: "Recommender systems"
 
 # LLM 기반 에이전트 추천 시스템 서베이 -- 종합 분석 보고서
 
-> **원논문**: *A Survey on LLM-powered Agents for Recommender Systems* `<br>`
-> **저자**: Qiyao Peng, Hongtao Liu, Hua Huang, Jian Yang, Qing Yang, Minglai Shao `<br>`
-> **소속**: Tianjin University, Du Xiaoman Financial, Beihang University `<br>`
-> **출처**: Findings of the Association for Computational Linguistics: EMNLP 2025 (pp. 11574--11583) `<br>`
+> **원논문**: *A Survey on LLM-powered Agents for Recommender Systems*<br>
+> **저자**: Qiyao Peng, Hongtao Liu, Hua Huang, Jian Yang, Qing Yang, Minglai Shao<br>
+> **소속**: Tianjin University, Du Xiaoman Financial, Beihang University<br>
+> **출처**: Findings of the Association for Computational Linguistics: EMNLP 2025 (pp. 11574--11583)<br>
 > **보고서 작성일**: 2026-04-16
 
 ---
@@ -257,17 +257,17 @@ Planner Agent가 3개 Responder Agent(Ask, Recommend, Chat)를 조율하며, 사
 
 본 논문은 에이전트 기반 추천 프로세스를 다음과 같이 정형화한다:
 
-에이전트 \( a \in \mathcal{A} \)가 기능 모듈 집합 \( \mathcal{F} = \{F_1, F_2, \ldots, F_K\} \)를 갖춘다고 하자. 사용자 \( u \)에 대한 추천 과정은 다음과 같이 표현된다:
+에이전트 $a \in \mathcal{A}$가 기능 모듈 집합 $\mathcal{F} = \{F_1, F_2, \ldots, F_K\}$를 갖춘다고 하자. 사용자 $u$에 대한 추천 과정은 다음과 같이 표현된다:
 
 $$\hat{y}_u = f\bigl(F_k(X_u)\bigr), \quad k = 1, \ldots, K$$
 
 여기서:
-- \( X_u \in \mathcal{X} \): 사용자 고유 정보를 포함하는 입력 공간 (상호작용 이력, 맥락 피처 등)
-- \( \hat{y}_u \in \mathbb{R}^N \): 아이템 공간에 대한 예측 선호 분포
-- \( f : F_k(X_u) \to \mathbb{R}^N \): 모듈 출력을 종합하여 최종 추천을 생성하는 통합 함수
+- $X_u \in \mathcal{X}$: 사용자 고유 정보를 포함하는 입력 공간 (상호작용 이력, 맥락 피처 등)
+- $\hat{y}_u \in \mathbb{R}^N$: 아이템 공간에 대한 예측 선호 분포
+- $f : F_k(X_u) \to \mathbb{R}^N$: 모듈 출력을 종합하여 최종 추천을 생성하는 통합 함수
 
 > **[주석] 정형화의 의미와 해석**
-> 이 수식은 "에이전트가 사용자 정보를 여러 기능 모듈(프로필, 메모리, 계획, 행동)을 통해 처리하고, 통합 함수가 이 출력들을 결합하여 N개 아이템에 대한 선호도 점수 벡터를 생성한다"는 전체 파이프라인을 수학적으로 압축한 것이다. \( \hat{y}_u \)에서 값이 가장 높은 아이템이 최종 추천 결과가 된다. 이 정형화의 장점은 다양한 LLM 에이전트 추천 방식을 하나의 통일된 프레임워크로 설명할 수 있다는 점이다.
+> 이 수식은 "에이전트가 사용자 정보를 여러 기능 모듈(프로필, 메모리, 계획, 행동)을 통해 처리하고, 통합 함수가 이 출력들을 결합하여 N개 아이템에 대한 선호도 점수 벡터를 생성한다"는 전체 파이프라인을 수학적으로 압축한 것이다. $\hat{y}_u$에서 값이 가장 높은 아이템이 최종 추천 결과가 된다. 이 정형화의 장점은 다양한 LLM 에이전트 추천 방식을 하나의 통일된 프레임워크로 설명할 수 있다는 점이다.
 
 4개 모듈은 폐쇄 루프(closed-loop) 프레임워크로 동작한다:
 
@@ -324,7 +324,7 @@ $$\text{상호작용 데이터} \xrightarrow{\text{갱신}} \text{Profile, Memor
 | **맞춤 지표** | 주도성, 경제성, 설명력, 정확성, 일관성, 효율성 / 시뮬레이션 행동 신뢰도, 에이전트 메모리 신뢰도 | AutoConcierge / RecAgent |
 
 > **[주석] NDCG@K (Normalized Discounted Cumulative Gain)란?**
-> 추천 결과의 순위 품질을 측정하는 지표다. 상위 K개 추천 중 관련 아이템이 얼마나 높은 순위에 있는지를 평가한다. DCG는 각 위치의 관련성 점수에 순위 위치에 따른 감쇠(discount)를 적용하여 합산하고, 이를 이상적 순서(IDCG)로 정규화한다. NDCG@K = 1이면 완벽한 순위, 0에 가까울수록 관련 아이템이 하위에 위치함을 의미한다. 수식: \( \text{DCG@K} = \sum_{i=1}^{K} \frac{2^{rel_i} - 1}{\log_2(i+1)} \), \( \text{NDCG@K} = \frac{\text{DCG@K}}{\text{IDCG@K}} \)
+> 추천 결과의 순위 품질을 측정하는 지표다. 상위 K개 추천 중 관련 아이템이 얼마나 높은 순위에 있는지를 평가한다. DCG는 각 위치의 관련성 점수에 순위 위치에 따른 감쇠(discount)를 적용하여 합산하고, 이를 이상적 순서(IDCG)로 정규화한다. NDCG@K = 1이면 완벽한 순위, 0에 가까울수록 관련 아이템이 하위에 위치함을 의미한다. 수식: $\text{DCG@K} = \sum_{i=1}^{K} \frac{2^{rel_i} - 1}{\log_2(i+1)}$, $\text{NDCG@K} = \frac{\text{DCG@K}}{\text{IDCG@K}}$
 
 ### 3.4 22개 방법론 에이전트 모듈 비교
 

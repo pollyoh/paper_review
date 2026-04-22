@@ -87,7 +87,9 @@ def build_reviews_markdown(
         fm["topic"] = topic
     header = yaml.safe_dump(fm, allow_unicode=True, sort_keys=False).strip()
     body = strip_report_header_for_body(report_text, slug)
-    return f"---\n{header}\n---\n\n{body}"
+    # LLM이 `<br>`를 인라인 코드로 감싸면 줄바꿈이 아니라 문자 그대로 보인다.
+    out = f"---\n{header}\n---\n\n{body}"
+    return out.replace("`<br>`", "<br>")
 
 
 def strip_report_header_for_body(text: str, slug: str) -> str:

@@ -70,6 +70,19 @@ def check_unclosed_fences(text: str) -> bool:
     return not in_fence
 
 
+def lint_remark_math_delimiters(text: str, path: Path, *, strict: bool) -> int:
+    """remark-math (Astro markdown) only parses $...$ and $$...$$; \\(...\\) is plain text."""
+    body = strip_fenced_blocks(text)
+    if "\\(" not in body:
+        return 0
+    err(
+        f"{path}: TeX-style `\\(...\\)` inline math is not rendered by remark-math; "
+        "use `$...$` or `$$...$$`",
+        strict=strict,
+    )
+    return 1
+
+
 def resolve_image_path(md_path: Path, url: str) -> Path | None:
     if url.startswith("http://") or url.startswith("https://"):
         return None
@@ -196,6 +209,8 @@ def lint_content(
         err(f"{path}: unclosed ``` fence", strict=strict)
         issues += 1
 
+    issues += lint_remark_math_delimiters(body, path, strict=strict)
+
     return issues
 
 
@@ -234,6 +249,7 @@ def lint_report_reviews(path: Path, text: str, *, strict: bool) -> int:
     if not check_unclosed_fences(text):
         err(f"{path}: unclosed ``` fence", strict=strict)
         issues += 1
+    issues += lint_remark_math_delimiters(text, path, strict=strict)
     return issues
 
 
@@ -257,6 +273,7 @@ def lint_report_studies(path: Path, text: str, *, strict: bool) -> int:
     if not check_unclosed_fences(text):
         err(f"{path}: unclosed ``` fence", strict=strict)
         issues += 1
+    issues += lint_remark_math_delimiters(text, path, strict=strict)
     return issues
 
 
