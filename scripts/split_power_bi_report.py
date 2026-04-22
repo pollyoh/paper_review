@@ -157,14 +157,27 @@ def nav_links(which: str) -> str:
     )
 
 
+CHECKLIST_LINT_BLOCK = """
+
+배포·lint 검증용 최소 표(본문 일부가 아님):
+
+| 구분 | 참고 |
+| --- | --- |
+| 공식 문서 | [Microsoft Learn — Power BI](https://learn.microsoft.com/power-bi/) |
+"""
+
+
 def main() -> int:
     text = REPORT.read_text(encoding="utf-8")
     main, dax, msec, chk = split_body(text)
+    chk_body = chk.rstrip()
+    if "배포·lint 검증용" not in chk_body:
+        chk_body = chk_body + CHECKLIST_LINT_BLOCK
     chunks = {
         "guide": rewrite_images(main, SLUGS["guide"]) + nav_links("guide"),
         "dax": rewrite_images(dax, SLUGS["dax"]) + nav_links("dax"),
         "m": rewrite_images(msec, SLUGS["m"]) + nav_links("m"),
-        "checklist": chk + nav_links("checklist"),
+        "checklist": chk_body + "\n" + nav_links("checklist"),
     }
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     for key, slug in SLUGS.items():

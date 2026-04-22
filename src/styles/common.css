@@ -597,6 +597,43 @@ body.has-sidebar .top-nav {
 	margin-left: 368px;
 }
 
+/* === Related posts (review / study pages) === */
+.related-posts-wrap {
+	margin-top: 2.5rem;
+	padding-top: 1.5rem;
+	border-top: 1px solid rgba(124, 184, 232, 0.35);
+}
+
+.related-posts h2 {
+	font-size: 1.1rem;
+	margin-bottom: 0.75rem;
+	color: #163b63;
+}
+
+.related-posts ul {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.related-posts li {
+	margin-bottom: 0.5rem;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	gap: 0.5rem;
+}
+
+.related-badge {
+	font-size: 0.72rem;
+	font-weight: 700;
+	padding: 0.12rem 0.45rem;
+	border-radius: 6px;
+	background: rgba(223, 241, 255, 0.95);
+	border: 1px solid rgba(124, 184, 232, 0.35);
+	color: #255d8c;
+}
+
 /* === Responsive === */
 @media (max-width: 768px) {
 	body {

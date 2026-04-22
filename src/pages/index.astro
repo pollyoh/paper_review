@@ -5,30 +5,46 @@ import { getCollection } from 'astro:content';
 import '../styles/index.css';
 
 const reviewEntries = await getCollection('reviews');
+const studyEntries = await getCollection('studies');
 
-const papers = reviewEntries
-  .map((entry) => ({
+const papers = [
+  ...reviewEntries.map((entry) => ({
+    kind: 'reviews' as const,
     slug: entry.id,
     title: entry.data.title,
-    originalTitle: entry.data.originalTitle,
+    subtitle: entry.data.originalTitle,
+    authorsMeta: `${entry.data.authors}${entry.data.institution ? ` · ${entry.data.institution}` : ''}`,
     date: entry.data.date.toISOString().slice(0, 10),
-    authors: entry.data.authors,
-    institution: entry.data.institution,
     tags: entry.data.tags,
     description: entry.data.description,
-  }))
-  .sort((a, b) => b.date.localeCompare(a.date));
+  })),
+  ...studyEntries.map((entry) => ({
+    kind: 'studies' as const,
+    slug: entry.id,
+    title: entry.data.title,
+    subtitle: entry.data.originalTitle ?? entry.data.topic,
+    authorsMeta: entry.data.authors
+      ? `${entry.data.authors}${entry.data.institution ? ` · ${entry.data.institution}` : ''}`
+      : entry.data.topic,
+    date: entry.data.date.toISOString().slice(0, 10),
+    tags: entry.data.tags,
+    description: entry.data.description,
+  })),
+].sort((a, b) => b.date.localeCompare(a.date));
 ---
 
-<BaseLayout title="Paper Review">
+<BaseLayout
+  title="seunghee's Archive"
+  description="논문 리뷰와 기술 학습 정리 — seunghee's Archive"
+>
   <header class="site-header">
-    <h1>Paper Review</h1>
-    <p>읽은 논문에 대한 종합 분석 보고서 모음</p>
+    <h1>seunghee's Archive</h1>
+    <p>논문 리뷰와 기술 학습 정리</p>
   </header>
 
   <PaperSearch client:load papers={papers} basePath={import.meta.env.BASE_URL} />
 
   <footer class="site-footer">
-    Paper Review &copy; 2025
+    seunghee's Archive &copy; 2026
   </footer>
 </BaseLayout>

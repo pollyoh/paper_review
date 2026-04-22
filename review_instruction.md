@@ -7,7 +7,7 @@
 ## 프롬프트
 
 ```
-/paper 에서 {논문 경로} 를 읽고 한국어로 분석하는 보고서를 작성해줘.
+/paper 에서 {논문 경로} 를 읽고 한국어로 분석하는 보고서를 작성해줘. 시간이 오래 걸려도 좋으니 가장 질 좋은 보고서를 작성하도록 일해.
 
 ### 작성 원칙
 
@@ -45,20 +45,13 @@
 아래 7개 섹션을 반드시 포함할 것. 논문 내용에 따라 세부 항목은 유연하게 조정 가능.
 
 #### 1. 배경 및 문제 정의
-- 보고서 맨 위에 논문 메타정보를 표기하되, 각 항목(원논문 제목, 저자, 소속, 출처, 보고서 작성일)은 `<br>`로 줄바꿈 처리하여 한 줄씩 표시한다. 예시:
-```
+- 보고서 맨 위에 논문 메타정보를 표기하되, 각 항목(원논문 제목, 저자, 소속, 출처, 보고서 작성일)은 `<br>`로 줄바꿈 처리하여 한 줄씩 표시한다. 예시(각 항목 한 줄):
 
-  **원논문**: {영문 제목}  
-
-  **저자**: {저자 목록}  
-
-  **소속**: {소속 기관}  
-
-  **출처**: {학회/저널/arXiv 등}  
-
-  **보고서 작성일**: {YYYY-MM-DD}
-
----
+    **원논문**: {영문 제목}<br>
+    **저자**: {저자 목록}<br>
+    **소속**: {소속 기관}<br>
+    **출처**: {학회/저널/arXiv 등}<br>
+    **보고서 작성일**: {YYYY-MM-DD}
 
 ## 보고서 품질 체크리스트
 
@@ -75,9 +68,9 @@
 - 참고문헌에 URL 링크가 포함되었는가
 - 파일명이 `{YYYYMMDD}_report_{논문명}.md` 형식인가 (`/report/`)
 
+```
+
 ---
-
-
 
 ## 사용 예시
 
@@ -114,11 +107,13 @@ paper_study/
   astro.config.mjs
   src/
     content.config.ts              # Content Collection 스키마
-    content/reviews/*.md           # 보고서 마크다운 (frontmatter 포함)
-    components/PaperSearch.tsx     # 메인 페이지 검색/필터 컴포넌트
-    layouts/ReviewLayout.astro     # 리뷰 페이지 레이아웃
+    content/reviews/*.md           # 논문 리뷰 (frontmatter 포함)
+    content/studies/*.md           # 기술 학습 글
+    components/PaperSearch.tsx     # 메인 페이지 검색·탭·필터
+    layouts/ReviewLayout.astro     # 리뷰·스터디 공통 레이아웃
     pages/index.astro              # 메인 페이지
     pages/reviews/[...slug].astro  # 동적 리뷰 라우트
+    pages/studies/[...slug].astro  # 동적 studies 라우트
     styles/                        # CSS (수정 금지)
     scripts/                       # 런타임 JS (수정 금지)
   public/images/reviews/{slug}/    # 논문 원본 이미지 (사용된 것만 복사)
@@ -143,9 +138,8 @@ authors: "{저자 목록}"
 institution: "{소속 기관}"
 tags: ["{태그1}", "{태그2}"]
 description: "{1~2문장 한국어 요약}"
+topic: "{선택 — 관련 글 그룹용 라벨}"
 ---
-```
-
 ```
 
 frontmatter 아래에 보고서 본문을 그대로 포함한다.
@@ -155,7 +149,7 @@ frontmatter 아래에 보고서 본문을 그대로 포함한다.
 보고서에 논문 원본 이미지(PNG)가 포함된 경우:
 
 1. `paper/{논문폴더}/`에서 사용된 이미지만 `public/images/reviews/{slug}/`로 복사한다
-2. 마크다운 내 이미지 경로를 `/images/reviews/{slug}/Figure N.png` 형식으로 수정한다
+2. 마크다운 내 이미지 경로를 `` `/paper_review/images/reviews/{slug}/Figure N.png` `` 형식으로 수정한다 (`astro.config.mjs`의 `base`와 일치)
 
 #### 2단계: Astro 빌드
 
@@ -185,10 +179,9 @@ frontmatter 아래에 보고서 본문을 그대로 포함한다.
 
 - `docs/` 폴더는 레거시이므로 수정하지 않는다
 - HTML을 수작업으로 생성하지 않는다 (Astro가 빌드 시 자동 생성)
-- `src/styles/`, `src/scripts/`, `src/layouts/`, `src/components/`는 수정하지 않는다
-- `src/content.config.ts`의 스키마를 수정하지 않는다
-
-```
+- 리뷰 **본문** 렌더링: `src/styles/common.css`, `src/scripts/review-enhance.js`는 원칙적으로 수정하지 않는다.
+- 사이트 **목록·탭·카드·브랜딩** 변경 시에는 `src/pages/index.astro`, `src/components/PaperSearch.tsx`, `src/styles/index.css`, `src/content.config.ts`, `src/pages/studies/` 등을 수정할 수 있다(통합 스펙 §5.5).
+- 기술 학습 글(studies) 작성 가이드는 루트의 `study_instruction.md`를 따른다.
 
 ### 배포 체크리스트
 
@@ -202,6 +195,3 @@ frontmatter 아래에 보고서 본문을 그대로 포함한다.
 - 사용자에게 배포(push) 여부 확인 완료
 
 ```
-
-```
-

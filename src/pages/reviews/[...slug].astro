@@ -1,6 +1,7 @@
 ---
 import { getCollection, render } from 'astro:content';
 import ReviewLayout from '../../layouts/ReviewLayout.astro';
+import { getRelated } from '../../lib/relatedPosts';
 
 export async function getStaticPaths() {
   const entries = await getCollection('reviews');
@@ -13,6 +14,9 @@ export async function getStaticPaths() {
 const { entry } = Astro.props;
 const { Content } = await render(entry);
 const listHref = `${import.meta.env.BASE_URL}?tab=reviews`;
+const allReviews = await getCollection('reviews');
+const allStudies = await getCollection('studies');
+const related = getRelated(entry, allReviews, allStudies);
 ---
 
 <ReviewLayout
@@ -21,4 +25,23 @@ const listHref = `${import.meta.env.BASE_URL}?tab=reviews`;
   listHref={listHref}
 >
   <Content />
+  <div slot="related" class="related-posts-wrap">
+    {
+      related.length > 0 && (
+        <section class="related-posts" aria-labelledby="related-heading">
+          <h2 id="related-heading">관련 글</h2>
+          <ul>
+            {related.map((r) => (
+              <li>
+                <a href={r.href}>{r.title}</a>
+                <span class="related-badge">
+                  {r.collection === 'reviews' ? '논문' : '기술'}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )
+    }
+  </div>
 </ReviewLayout>

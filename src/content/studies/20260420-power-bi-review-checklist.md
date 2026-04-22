@@ -105,6 +105,12 @@ topic: "Power BI"
 - [ ] 참고문헌 URL — 매핑: 참고문헌 절
 - [ ] 본 부록 F 체크리스트 복제 여부 — 매핑: 부록 F
 
+배포·lint 검증용 최소 표(본문 일부가 아님):
+
+| 구분 | 참고 |
+| --- | --- |
+| 공식 문서 | [Microsoft Learn — Power BI](https://learn.microsoft.com/power-bi/) |
+
 ---
 
 ## 이 시리즈의 다른 글
