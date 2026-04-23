@@ -81,7 +81,7 @@ GPT-4(Achiam et al., 2023) 등 대규모 언어 모델의 발전은 추천 시�
 
 ![Figure 1: 세 가지 방법론 패러다임 비교](/paper_review/images/reviews/20260416-a-survey-on-llm-powered-agents-for-recommender-systems/Figure_1.png)
 
-> **[그림 설명] Fig. 1**: 세 가지 방법론 목적의 동작 방식을 시각화한 그림이다. 왼쪽(Recommender-oriented)은 사용자의 과거 선호 이력을 LLM이 분석하여 다단계 전략적 추천을 생성하는 흐름을 보여준다. 중앙(Interaction-oriented)은 사용자가 "최근 The Descent와 Star Trek을 봤는데 추천해줘"라고 대화하면 에이전트가 맥락을 파악하고 Space Odyssey 2001을 추천하며 이유를 설명하는 대화형 시나리오를 나타낸다. 오른쪽(Simulation-oriented)은 에이전트가 "실험적 음악을 좋아하고 새로운 것을 탐험하고 싶다"는 가상 사용자를 시뮬레이션하여 "재즈와 전자 요소를 결합한 새 곡을 클릭하겠다"는 행동을 생성하는 과정을 보여준다.
+> **Fig. 1**: 세 가지 방법론 목적의 동작 방식을 시각화한 그림이다. 왼쪽(Recommender-oriented)은 사용자의 과거 선호 이력을 LLM이 분석하여 다단계 전략적 추천을 생성하는 흐름을 보여준다. 중앙(Interaction-oriented)은 사용자가 "최근 The Descent와 Star Trek을 봤는데 추천해줘"라고 대화하면 에이전트가 맥락을 파악하고 Space Odyssey 2001을 추천하며 이유를 설명하는 대화형 시나리오를 나타낸다. 오른쪽(Simulation-oriented)은 에이전트가 "실험적 음악을 좋아하고 새로운 것을 탐험하고 싶다"는 가상 사용자를 시뮬레이션하여 "재즈와 전자 요소를 결합한 새 곡을 클릭하겠다"는 행동을 생성하는 과정을 보여준다.
 
 ```mermaid
 graph TB
@@ -175,7 +175,7 @@ graph TB
 
 ![Figure 2: 에이전트 구성요소 및 기능](/paper_review/images/reviews/20260416-a-survey-on-llm-powered-agents-for-recommender-systems/Figure_2.png)
 
-> **[그림 설명] Fig. 2**: 4-모듈 에이전트 아키텍처를 도식화한 그림이다. 중앙에 Profile, Memory, Planning, Action 4개 모듈이 원형으로 배치되어 폐쇄 루프(closed-loop) 구조를 형성한다. 각 모듈의 세부 기능이 외곽에 표시되어 있다: Profile은 행동 추적/패턴 구축/선호 분석, Memory는 이력 저장/감정 추적/맥락 유지, Planning은 전략 생성/과제 순서화/목표 균형, Action은 응답 생성/과제 실행/피드백 학습을 담당한다. 상호작용 데이터가 지속적으로 사용자 프로필과 시스템 메모리를 풍부하게 하는 순환 구조를 핵심적으로 관찰해야 한다.
+> **Fig. 2**: 4-모듈 에이전트 아키텍처를 도식화한 그림이다. 중앙에 Profile, Memory, Planning, Action 4개 모듈이 원형으로 배치되어 폐쇄 루프(closed-loop) 구조를 형성한다. 각 모듈의 세부 기능이 외곽에 표시되어 있다: Profile은 행동 추적/패턴 구축/선호 분석, Memory는 이력 저장/감정 추적/맥락 유지, Planning은 전략 생성/과제 순서화/목표 균형, Action은 응답 생성/과제 실행/피드백 학습을 담당한다. 상호작용 데이터가 지속적으로 사용자 프로필과 시스템 메모리를 풍부하게 하는 순환 구조를 핵심적으로 관찰해야 한다.
 
 ```mermaid
 graph LR
