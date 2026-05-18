@@ -51,3 +51,26 @@ def test_lint_remark_math_delimiters_flags_tex_paren() -> None:
     p = Path("x.md")
     assert lr.lint_remark_math_delimiters(r"plain \(a\) math", p, strict=False) == 1
     assert lr.lint_remark_math_delimiters(r"ok $a$ inline", p, strict=False) == 0
+
+
+def test_lint_description_plaintext_flags_bold_and_backtick() -> None:
+    lr = _load_lint_report()
+    p = Path("x.md")
+    assert lr.lint_description_plaintext({"description": "요약 문장"}, p, strict=True) == 0
+    assert lr.lint_description_plaintext({"description": "bad **bold**"}, p, strict=False) == 1
+    assert lr.lint_description_plaintext({"description": "bad `code`"}, p, strict=False) == 1
+
+
+def test_lint_fullwidth_asterisk() -> None:
+    lr = _load_lint_report()
+    p = Path("x.md")
+    assert lr.lint_fullwidth_asterisk("normal *emphasis*", p, strict=True) == 0
+    assert lr.lint_fullwidth_asterisk("fullwidth＊＊x", p, strict=False) == 1
+
+
+def test_lint_colon_space_emphasis_open() -> None:
+    lr = _load_lint_report()
+    p = Path("x.md")
+    assert lr.lint_colon_space_emphasis_open("**레이블**: **값**", p, strict=False) == 1
+    assert lr.lint_colon_space_emphasis_open("**레이블**:**값**", p, strict=True) == 0
+    assert lr.lint_colon_space_emphasis_open("**A**:\n\n**B**", p, strict=True) == 0

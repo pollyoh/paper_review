@@ -83,6 +83,53 @@ def lint_remark_math_delimiters(text: str, path: Path, *, strict: bool) -> int:
     return 1
 
 
+def lint_description_plaintext(fm: dict, path: Path, *, strict: bool) -> int:
+    """Index cards render `description` as plain text (see PaperSearch.tsx), not Markdown."""
+    desc = fm.get("description")
+    if not isinstance(desc, str):
+        return 0
+    issues = 0
+    if "**" in desc:
+        err(
+            f"{path}: frontmatter `description` is shown as plain text on index cards; "
+            "remove `**` and rephrase in plain Korean",
+            strict=strict,
+        )
+        issues += 1
+    if "`" in desc:
+        err(
+            f"{path}: frontmatter `description` is plain text; remove backticks from description",
+            strict=strict,
+        )
+        issues += 1
+    return issues
+
+
+def lint_fullwidth_asterisk(body: str, path: Path, *, strict: bool) -> int:
+    """U+FF0A is not ASCII *; CommonMark emphasis will not treat it as bold/italic."""
+    text = strip_fenced_blocks(body)
+    if "\uff0a" in text:
+        err(
+            f"{path}: fullwidth asterisk U+FF0A in body; use ASCII `*` (U+002A) for Markdown",
+            strict=strict,
+        )
+        return 1
+    return 0
+
+
+def lint_colon_space_emphasis_open(body: str, path: Path, *, strict: bool) -> int:
+    """CommonMark: `**` cannot open emphasis when preceded by ASCII space/tab after `:`."""
+    text = strip_fenced_blocks(body)
+    if re.search(r"\*\*:[ \t]+\*\*", text):
+        err(
+            f"{path}: pattern `**: ` + bold (ASCII space/tab only) breaks Markdown strong; "
+            "use `**레이블**: <strong>값</strong>` or remove space/tab between `:` and `**`",
+            strict=strict,
+        )
+        return 1
+    return 0
+
+
 def resolve_image_path(md_path: Path, url: str) -> Path | None:
     if url.startswith("http://") or url.startswith("https://"):
         return None
@@ -210,6 +257,9 @@ def lint_content(
         issues += 1
 
     issues += lint_remark_math_delimiters(body, path, strict=strict)
+    issues += lint_description_plaintext(fm, path, strict=strict)
+    issues += lint_fullwidth_asterisk(body, path, strict=strict)
+    issues += lint_colon_space_emphasis_open(body, path, strict=strict)
 
     return issues
 
