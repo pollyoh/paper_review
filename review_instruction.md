@@ -137,10 +137,12 @@ date: YYYY-MM-DD
 authors: "{저자 목록}"
 institution: "{소속 기관}"
 tags: ["{태그1}", "{태그2}"]
-description: "{1~2문장 한국어 요약}"
+description: "{1~2문장 한국어 요약 — 순수 한글·구두점만, 아래 규칙 준수}"
 topic: "{선택 — 관련 글 그룹용 라벨}"
 ---
 ```
+
+`description`은 메인 페이지 카드([src/components/PaperSearch.tsx](src/components/PaperSearch.tsx))에 **마크다운 없이** 문자열 그대로 출력된다. `**볼드**`, `` `코드` `` 등을 넣으면 화면에 기호가 그대로 보이므로 쓰지 않는다.
 
 frontmatter 아래에 보고서 본문을 그대로 포함한다.
 
@@ -169,11 +171,24 @@ frontmatter 아래에 보고서 본문을 그대로 포함한다.
   - 주석 토글 (접이식)
   - TOC 사이드바
   - "목록으로" 네비게이션
+4. 메인 카드의 요약 문구(`description`)에 `**`나 백틱이 그대로 노출되지 않는지 확인한다 (해당 필드는 마크다운이 아니다).
 
 #### 4단계: 배포 확인
 
 렌더링이 정상이면 사용자에게 배포 여부를 물어본다:
 "빌드 및 렌더링이 정상입니다. git commit 후 push하면 GitHub Actions가 자동으로 배포합니다. push 할까요?"
+
+### `**볼드**`가 그대로 보일 때 (원인 구분)
+
+같은 문장이라도 **어디에 그려지느냐**에 따라 마크다운이 적용되거나 적용되지 않는다.
+
+| 증상 위치 | 흔한 원인 |
+|-----------|-----------|
+| 글 **본문** (리뷰·스터디 상세 페이지) | CommonMark에서 ASCII 공백·탭 바로 뒤의 별 두 개는 강조를 열 수 없어, `**레이블**: **값**` 형태에서 뒤쪽 볼드가 깨진다. 해결: `**레이블**: <strong>값</strong>`처럼 둘째 구간만 HTML로 감싸거나, 콜론과 볼드 사이에 공백·탭을 두지 않는다. `lint_report.py`가 `**: `+공백/탭+`**` 패턴을 검사한다. 그 외: 펜스 코드 블록, 리스트 뒤 과도한 들여쓰기, 백슬래시 이스케이프, 미닫힌 `$` 수식, 전각 별표 `＊`(U+FF0A) |
+| 메인 **카드 요약** | frontmatter `description`은 마크다운이 아니라 **평문**으로만 출력됨 |
+| `report/` 원고만 / GitHub **Raw** / 타 도구로 붙여넣기 | 마크다운 렌더러가 없거나 Raw 모드라 기호가 그대로 보임 |
+
+본문에서 의심될 때는 `npm run build` 후 `dist/`의 해당 HTML을 검색해 `게이지` 등 키워드 주변이 `<strong>...</strong>`인지, 문자 그대로 `**`인지 확인하면 파서 문제와 원고 문제를 가른다.
 
 ### 주의사항
 
@@ -187,6 +202,7 @@ frontmatter 아래에 보고서 본문을 그대로 포함한다.
 
 - `src/content/reviews/{slug}.md` 생성됨 (frontmatter 포함)
 - frontmatter 필드가 스키마와 일치하는가 (title, originalTitle, date, authors, institution, tags, description)
+- `description`에 `**`·백틱 등 마크다운 기호가 없는가 (카드는 평문만 렌더한다; `lint_report.py`가 `--stage content`에서 검사한다)
 - 사용된 논문 이미지가 `public/images/reviews/{slug}/`에 복사됨 (이미지 미사용 시 해당 없음)
 - `npm run build` 성공
 - 메인 페이지에서 새 카드 표시 정상

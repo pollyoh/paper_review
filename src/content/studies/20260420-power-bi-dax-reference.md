@@ -419,7 +419,7 @@ RETURN DIVIDE(_sales - _cost, _sales)
 ##### ALLSELECTED
 
 - **시그니처**: `ALLSELECTED([<table_or_column>])`
-- **의미**: **시각적 개체 외부 필터**(슬라이서·페이지 필터)는 유지하고, **내부 좌표 축 필터**만 제거한다. “보이는 데이터 대비 비율”을 구할 때 쓴다.
+- **의미**: <strong>시각적 개체 외부 필터</strong>(슬라이서·페이지 필터)는 유지하고, **내부 좌표 축 필터**만 제거한다. “보이는 데이터 대비 비율”을 구할 때 쓴다.
 - **DAX 식**:
 
     ```DAX
@@ -558,7 +558,7 @@ RETURN DIVIDE(_sales - _cost, _sales)
 ##### TREATAS
 
 - **시그니처**: `TREATAS(<expression>, <column>[, <column>, ...])`
-- **의미**: **관계가 없는** 테이블 간에도 열 값을 필터로 **가상 연결**한다.
+- **의미**: <strong>관계가 없는</strong> 테이블 간에도 열 값을 필터로 **가상 연결**한다.
 - **DAX 식**:
 
     ```DAX
@@ -1488,7 +1488,7 @@ RETURN DIVIDE(_sales - _cost, _sales)
 ##### SELECTEDMEASURE
 
 - **시그니처**: `SELECTEDMEASURE()`
-- **의미**: **계산 그룹**에서 현재 적용되는 측정값을 나타낸다. 계산 항목의 식 안에서만 의미가 있다.
+- **의미**: <strong>계산 그룹</strong>에서 현재 적용되는 측정값을 나타낸다. 계산 항목의 식 안에서만 의미가 있다.
 - **참고**: [Microsoft Learn](https://learn.microsoft.com/en-us/dax/selectedmeasure-function-dax) · [DAX Guide](https://dax.guide/selectedmeasure/)
 
 ##### SELECTEDMEASURENAME
